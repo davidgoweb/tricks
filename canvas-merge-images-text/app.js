@@ -1,29 +1,43 @@
-
-var c=document.createElement("canvas");
-document.body.appendChild(c);
-c.width=1000;
-c.height=600;
+var c=document.getElementById("my-canvas");
 var ctx=c.getContext("2d");
 var imageObj1 = new Image();
+
+imageObj1.crossOrigin="anonymous";
 var imageObj2 = new Image();
 var imageObj = new Image();
 
-// bg big
-imageObj1.src = "https://via.placeholder.com/1000x600/FFFFaa"
+// certificate bg
+imageObj1.src = "image-big.png"
 imageObj1.onload = function() {
-   ctx.drawImage(imageObj1, 0, 0, 1000, 600);
+  ctx.drawImage(imageObj1, 0, 0, 1000, 600);
     
-   // text content center
   ctx.font = "30px Arial";
   ctx.textAlign = "center";
-  ctx.fillText("hallo ini judul center", 500, 100);
+  ctx.fillText("hallo ini text center", 500, 100);
   
-   // image small
-   imageObj2.src = "https://via.placeholder.com/150x150/ccccFF";
+   // qrcode path
+   imageObj2.src = "image-small.png";
    imageObj2.onload = function() {
       ctx.drawImage(imageObj2, 800, 400, 150, 150);
-      var img = c.toDataURL("image/png");
-      document.write('<img src="' + img + '" width="1000px" height="600px"/>');
    }
   
 };
+
+
+// Convert canvas to image
+document.getElementById('btn-download').addEventListener("click", function(e) {
+    var canvas = document.querySelector('#my-canvas');
+
+    var dataURL = canvas.toDataURL("image/jpeg", 1.0);
+
+    downloadImage(dataURL, 'my-canvas.jpeg');
+});
+
+// Save | Download image
+function downloadImage(data, filename = 'untitled.jpeg') {
+    var a = document.createElement('a');
+    a.href = data;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+}
